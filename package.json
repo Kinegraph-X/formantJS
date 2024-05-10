@@ -1,11 +1,11 @@
 {
    "name": "formantjs",
-   "version": "0.0.2",
+   "version": "0.0.3",
    "description": "A Javascript frontend framework to build fast, reactive applications",
    "main": "formant.js",
    "scripts": {
 	"scaffold" : "install.bat",
-	"postinstall" : "node node_modules/formantjs/browserify-bugfix.js"
+	"postinstall" : "node browserify-bugfix.js"
    },
    "devDependencies": {
       "@jsdevtools/sourcemapify": "^2.0.2",

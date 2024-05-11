@@ -7,4 +7,5 @@ npm -g install grunt ^
 & del file.zip ^
 & move /Y package.json ..\. ^
 &cd .. ^
-& node node_modules\formantjs\browserify-bugfix.js
+& node node_modules/formantjs/browserify-bugfix.js ^
+& node node_modules/formantjs/sourceMap-fix.js

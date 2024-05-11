@@ -18,7 +18,8 @@ for (let type in validators) {
 const dependancyInjector = _dereq_('src/secondaryAppLauncher/dependancyInjector');
 
 module.exports = formantCore;
-},{"formantCore":2,"src/_buildTools/_UIpackages":39,"src/secondaryAppLauncher/dependancyInjector":38}],2:[function(_dereq_,module,exports){
+},{"formantCore":2,"src/_buildTools/_UIpackages":38,"src/secondaryAppLauncher/dependancyInjector":39}],2:[function(_dereq_,module,exports){
+(function (global){(function (){
 "use strict";
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.formantCore = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof _dereq_&&_dereq_;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof _dereq_&&_dereq_,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(_dereq_,module,exports){
 "use strict";
@@ -772,14 +773,13 @@ module.exports = SpecialDependencyInjector;
 //		window = global;
 //}
 
-// TODO : Should not polute the namespace of this function : think seriously of removing the affectation to vars, as we only need to "execute" the require
 
 if (typeof Object.getOwnPropertyDescriptor(String.prototype, 'escapeRegExp') === 'undefined') { 
-	var Str = _dereq_('src/extendedNative/string');
-	var Arr = _dereq_('src/extendedNative/array');
-	var Bool = _dereq_('src/extendedNative/boolean');
-	var Obj = _dereq_('src/extendedNative/object');
-	var Regex = _dereq_('src/extendedNative/regexp');
+	_dereq_('src/extendedNative/string');
+	_dereq_('src/extendedNative/array');
+	_dereq_('src/extendedNative/boolean');
+	_dereq_('src/extendedNative/object');
+	_dereq_('src/extendedNative/regexp');
 }
 var Validate = _dereq_('src/integrated_libs_&_forks/Validate');
 var Hamster = _dereq_('src/integrated_libs_&_forks/Hamster');
@@ -810,7 +810,7 @@ var classConstructor = (function() {
 	
 //	console.log(knownIDs);
 	var launch = function(customOptions) {
-		
+		console.log('appLauncher');
 		debugMode = window.location && window.location.href.match(/[\?&]debug=(.+)&?/)
 		if (debugMode && debugMode[0])
 			debugMode = debugMode[0];
@@ -1218,6 +1218,41 @@ var ComponentPickingInputDef = function(uniqueID, options, model) {
 	// Some CSS stuff (styles are directly injected in the main def below)
 	/**@CSSifySlots placeholder */
 
+	var hostStyles = [
+
+	{
+		"selector": ":host, div",
+		"boxSizing": "border-box",
+		"background": "none",
+		"border": "0",
+		"boxShadow": "none",
+		"margin": "0",
+		"outline": "0",
+		"padding": "0",
+		"verticalAlign": "baseline"
+	},
+	{
+		"selector": ":host",
+		"display": "flex",
+		"flex": "1 1 0",
+		"alignItems": "center",
+		"justifyContent": "space-between",
+		"border": "1px solid #383838",
+		"margin": "2px",
+		"padding": "3px",
+		"borderRadius": "2px"
+	},
+	{
+		"selector": "label",
+		"padding": "2px 7px"
+	}
+
+	];
+	var hostStylesUseCache = {
+		use : false,
+		nameInCache : 'ComponentPickingInputHostStyles'
+	}
+
 	var buttonStyles = [
 
 	{
@@ -1252,41 +1287,6 @@ var ComponentPickingInputDef = function(uniqueID, options, model) {
 	var buttonStylesUseCache = {
 		use : false,
 		nameInCache : 'ComponentPickingInputButtonStyles'
-	}
-
-	var hostStyles = [
-
-	{
-		"selector": ":host, div",
-		"boxSizing": "border-box",
-		"background": "none",
-		"border": "0",
-		"boxShadow": "none",
-		"margin": "0",
-		"outline": "0",
-		"padding": "0",
-		"verticalAlign": "baseline"
-	},
-	{
-		"selector": ":host",
-		"display": "flex",
-		"flex": "1 1 0",
-		"alignItems": "center",
-		"justifyContent": "space-between",
-		"border": "1px solid #383838",
-		"margin": "2px",
-		"padding": "3px",
-		"borderRadius": "2px"
-	},
-	{
-		"selector": "label",
-		"padding": "2px 7px"
-	}
-
-	];
-	var hostStylesUseCache = {
-		use : false,
-		nameInCache : 'ComponentPickingInputHostStyles'
 	}
 	
 	
@@ -2120,6 +2120,30 @@ var RootViewComponentDef = function(uniqueID, options, model) {
 		nameInCache : 'RootViewComponentPageStyles'
 	}
 
+	var headerStyles = [
+
+	{
+		"selector": ":host",
+		"display": "flex",
+		"width": "100%",
+		"flex": "1 1 0",
+		"flexFlow": "row",
+		"boxSizing": "border-box",
+		"background": "0",
+		"border": "0",
+		"boxShadow": "0",
+		"margin": "0",
+		"outline": "0",
+		"padding": "0",
+		"verticalAlign": "baseline"
+	}
+
+	];
+	var headerStylesUseCache = {
+		use : false,
+		nameInCache : 'RootViewComponentHeaderStyles'
+	}
+
 	var hostStyles = [
 
 	{
@@ -2154,30 +2178,6 @@ var RootViewComponentDef = function(uniqueID, options, model) {
 	var hostStylesUseCache = {
 		use : false,
 		nameInCache : 'RootViewComponentHostStyles'
-	}
-
-	var headerStyles = [
-
-	{
-		"selector": ":host",
-		"display": "flex",
-		"width": "100%",
-		"flex": "1 1 0",
-		"flexFlow": "row",
-		"boxSizing": "border-box",
-		"background": "0",
-		"border": "0",
-		"boxShadow": "0",
-		"margin": "0",
-		"outline": "0",
-		"padding": "0",
-		"verticalAlign": "baseline"
-	}
-
-	];
-	var headerStylesUseCache = {
-		use : false,
-		nameInCache : 'RootViewComponentHeaderStyles'
 	}
 	
 
@@ -21102,9 +21102,11 @@ module.exports = StyleRule;
 });
 
 
+}).call(this)}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{}],3:[function(_dereq_,module,exports){
 "use strict";
-module.exports = (function() {return {"_configurationFiles":["_arias&glyphsDef.js"],"_recentlyCreated":[],"basics":["AbstractSlider","ClickableComponent","GenericTitledPanelComponent","InnerReactiveComponent","KeyValuePairComponent","MultisetAccordionComponent","SimpleText","SimpleTextReplace","SpecializedTypedListComponent","Tooltip","TypedListComponent","VisibleStateComponent"],"forms":["BoolSelector","CancelButton","CheckboxInput","EMailInput","Fieldset","FormComponent","LabelledButton","NamedButton","PasswordInput","SubmitButton","TextInput","TextareaInput","UsernameInput"],"lists":[],"specials":["SourceCodeViewCleanerRouter.js","SourceCodeViewRouter.js","SourceCodeViewRouterForExternalSources.js","SourceInjectionUtility.js"],"tables":["ExtensibleTable"],"tabs":["ComponentTabPanel","TabPanel"],"trees":[],"utilities":["SpinnerComponent"],"validators":["apipasswordInputDef.js","emailInputDef.js","filenameInputDef.js","mapcontentInputDef.js","passwordInputDef.js","usernameInputDef.js"]};})();
+module.exports = (function() {return {"_configurationFiles":["_arias&glyphsDef.js"],"basics":["AbstractSlider","ClickableComponent","GenericTitledPanelComponent","InnerReactiveComponent","KeyValuePairComponent","MultisetAccordionComponent","SimpleText","SimpleTextReplace","SpecializedTypedListComponent","Tooltip","TypedListComponent","VisibleStateComponent"],"forms":["BoolSelector","CancelButton","CheckboxInput","EMailInput","Fieldset","FormComponent","LabelledButton","NamedButton","PasswordInput","SubmitButton","TextInput","TextareaInput","UsernameInput"],"specials":["SourceCodeViewCleanerRouter.js","SourceCodeViewRouter.js","SourceCodeViewRouterForExternalSources.js","SourceInjectionUtility.js"],"tables":["ExtensibleTable"],"tabs":["ComponentTabPanel","TabPanel"],"utilities":["SpinnerComponent"],"validators":["apipasswordInputDef.js","emailInputDef.js","filenameInputDef.js","mapcontentInputDef.js","passwordInputDef.js","usernameInputDef.js"]};})();
 },{}],4:[function(_dereq_,module,exports){
 "use strict";
 module.exports = (function() {return ["apipasswordInputDef.js","emailInputDef.js","filenameInputDef.js","mapcontentInputDef.js","passwordInputDef.js","usernameInputDef.js"];})();
@@ -22937,30 +22939,6 @@ module.exports = SpinnerComponent;
 
 },{"formantCore":2}],38:[function(_dereq_,module,exports){
 "use strict";
-const {App, Components, ReactiveDataset, ComponentSet} = _dereq_('formantCore');
-
-// Components relying on core components
-Components.CompositorComponent.createAppLevelExtendedComponent();
-
-//temporary tests during the re-organisation of the component-lib
-if (typeof App.componentTypes.KeyValueList !== 'undefined')
-	App.componentTypes.KeyValueList.prototype.render = function(DOMNodeId) {
-		new App.DelayedDecoration(DOMNodeId, this, this.listTemplate.getHostDef());
-	};
-if (typeof App.componentTypes.ScrollSlider !== 'undefined')
-	App.componentTypes.ScrollSlider.prototype.render = function(DOMNodeId) {
-		new App.DelayedDecoration(DOMNodeId, this);
-	};
-if (typeof App.componentTypes.SlidingPanel !== 'undefined')
-	App.componentTypes.SlidingPanel.prototype.render = function(DOMNodeId) {
-		new App.DelayedDecoration(DOMNodeId, this);
-	};
-if (typeof App.componentTypes.ImgPlaceholder !== 'undefined')
-	App.componentTypes.ImgPlaceholder.prototype.render = function(DOMNodeId) {
-		new App.DelayedDecoration(DOMNodeId, this);
-	};
-},{"formantCore":2}],39:[function(_dereq_,module,exports){
-"use strict";
 /**
  * @indexer UIpackageList
  * 
@@ -22969,14 +22947,13 @@ if (typeof App.componentTypes.ImgPlaceholder !== 'undefined')
 const fs  = _dereq_('fs');
 
 module.exports = function(grunt, options) {
-	
 	var categories = {
 //			none : [],
 //			minimal : ['minimal'],		// minimal bundling is broken, don't use until big fix
 //			special : ['special'],
 //			video : ['video'],
 //			std : ['minimal', 'boxes', 'panels', 'structs', 'titles'],
-			all : ['basics', 'forms', 'lists', 'tables', 'tabs', 'trees', 'specials']
+			all : ['basics', 'forms', 'tables', 'tabs', 'trees', 'specials']
 	}
 	
 	options = options || {};
@@ -23004,8 +22981,8 @@ module.exports = function(grunt, options) {
 		var prefix = 'module.exports = (function() {return ',
 			postfix = ';})();';
 		
-		grunt.file.write(grunt.config.data.pathToProject + 'cache/UIpackagesFolderCache.js', prefix + JSON.stringify(packageTree) + postfix);
-		grunt.file.write(grunt.config.data.pathToProject + 'cache/UIvalidatorsFileCache.js', prefix + JSON.stringify(validatorTree) + postfix);
+		grunt.file.write(grunt.config.data.pathToComponentLib + '/cache/UIpackagesFolderCache.js', prefix + JSON.stringify(packageTree) + postfix);
+		grunt.file.write(grunt.config.data.pathToComponentLib + '/cache/UIvalidatorsFileCache.js', prefix + JSON.stringify(validatorTree) + postfix);
 	}
 	// if (fs.existsSync('cache/UIpackagesFolderCache.js') && fs.existsSync('cache/UIvalidatorsFileCache.js'))
 	else  {
@@ -23021,6 +22998,9 @@ module.exports = function(grunt, options) {
 	// some files call this helper to get the list of validators and pass null as UIpackage
 	if (typeof categories[options.UIpackage] !== 'undefined') {
 		categories[options.UIpackage].forEach(function(dir) {
+			// case of empty folders
+			if (!packageTree[dir])
+				return;
 			options.UIpackageList = options.UIpackageList.concat(
 					packageTree[dir].map(function(item) {
 						path = '';
@@ -23046,7 +23026,31 @@ module.exports = function(grunt, options) {
 		return {packageList : UIpackageList, validatorList : UIvalidatorList};
 
 };
-},{"cache/UIpackagesFolderCache":3,"cache/UIvalidatorsFileCache":4,"fs":40}],40:[function(_dereq_,module,exports){
+},{"cache/UIpackagesFolderCache":3,"cache/UIvalidatorsFileCache":4,"fs":40}],39:[function(_dereq_,module,exports){
+"use strict";
+const {App, Components, ReactiveDataset, ComponentSet} = _dereq_('formantCore');
+
+// Components relying on core components
+Components.CompositorComponent.createAppLevelExtendedComponent();
+
+//temporary tests during the re-organisation of the component-lib
+if (typeof App.componentTypes.KeyValueList !== 'undefined')
+	App.componentTypes.KeyValueList.prototype.render = function(DOMNodeId) {
+		new App.DelayedDecoration(DOMNodeId, this, this.listTemplate.getHostDef());
+	};
+if (typeof App.componentTypes.ScrollSlider !== 'undefined')
+	App.componentTypes.ScrollSlider.prototype.render = function(DOMNodeId) {
+		new App.DelayedDecoration(DOMNodeId, this);
+	};
+if (typeof App.componentTypes.SlidingPanel !== 'undefined')
+	App.componentTypes.SlidingPanel.prototype.render = function(DOMNodeId) {
+		new App.DelayedDecoration(DOMNodeId, this);
+	};
+if (typeof App.componentTypes.ImgPlaceholder !== 'undefined')
+	App.componentTypes.ImgPlaceholder.prototype.render = function(DOMNodeId) {
+		new App.DelayedDecoration(DOMNodeId, this);
+	};
+},{"formantCore":2}],40:[function(_dereq_,module,exports){
 
 },{}],"src/UI/categories/basics/AbstractSlider/AbstractSlider.js":[function(_dereq_,module,exports){
 "use strict";

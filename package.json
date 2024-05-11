@@ -1,6 +1,6 @@
 {
    "name": "formantjs",
-   "version": "0.0.7",
+   "version": "0.0.8",
    "description": "A Javascript frontend framework to build fast, reactive applications",
    "main": "formant.js",
    "scripts": {

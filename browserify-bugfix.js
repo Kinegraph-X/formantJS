@@ -17,6 +17,6 @@ fs.readFile(filePath, 'utf8', (err, data) => {
       console.error('Error writing file:', err);
       return;
     }
-    console.log('File has been modified successfully.');
+    console.log('Browserify has been patched successfully.');
   });
 });

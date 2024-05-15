@@ -1,0 +1,17 @@
+mkdir codebase
+cd codebase
+
+git clone https://github.com/Kinegraph-X/formantCore.git
+mv formantCore jsCore
+git clone https://github.com/Kinegraph-X/FormantComponentLib.git
+mv FormantComponentLib jsComponentLib
+git clone https://github.com/Kinegraph-X/formantStyleManager.git
+mv formantStyleManager jsStyleManager
+git clone https://github.com/Kinegraph-X/formantLexicalTools.git
+mv formantLexicalTools jsLexicalTools
+git clone https://github.com/Kinegraph-X/formantKeyboardEvents.git
+mv formantKeyboardEvents jsKeyboardEvents
+cd ..
+
+curl -L https://github.com/Kinegraph-X/_formantCoreBundler/archive/refs/heads/master.zip -o file.zip && unzip file.zip && rm file.zip
+curl -L https://github.com/Kinegraph-X/_formantComponentLibBundler/archive/refs/heads/master.zip -o file.zip && unzip file.zip && rm file.zip

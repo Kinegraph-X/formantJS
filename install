@@ -1,4 +1,4 @@
-npm install -g grunt
+﻿npm install -g grunt
 npm install -g sorcery
 mkdir projects
 cd projects

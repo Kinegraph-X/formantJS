@@ -1218,6 +1218,41 @@ var ComponentPickingInputDef = function(uniqueID, options, model) {
 	// Some CSS stuff (styles are directly injected in the main def below)
 	/**@CSSifySlots placeholder */
 
+	var hostStyles = [
+
+	{
+		"selector": ":host, div",
+		"boxSizing": "border-box",
+		"background": "none",
+		"border": "0",
+		"boxShadow": "none",
+		"margin": "0",
+		"outline": "0",
+		"padding": "0",
+		"verticalAlign": "baseline"
+	},
+	{
+		"selector": ":host",
+		"display": "flex",
+		"flex": "1 1 0",
+		"alignItems": "center",
+		"justifyContent": "space-between",
+		"border": "1px solid #383838",
+		"margin": "2px",
+		"padding": "3px",
+		"borderRadius": "2px"
+	},
+	{
+		"selector": "label",
+		"padding": "2px 7px"
+	}
+
+	];
+	var hostStylesUseCache = {
+		use : false,
+		nameInCache : 'ComponentPickingInputHostStyles'
+	}
+
 	var buttonStyles = [
 
 	{
@@ -1252,41 +1287,6 @@ var ComponentPickingInputDef = function(uniqueID, options, model) {
 	var buttonStylesUseCache = {
 		use : false,
 		nameInCache : 'ComponentPickingInputButtonStyles'
-	}
-
-	var hostStyles = [
-
-	{
-		"selector": ":host, div",
-		"boxSizing": "border-box",
-		"background": "none",
-		"border": "0",
-		"boxShadow": "none",
-		"margin": "0",
-		"outline": "0",
-		"padding": "0",
-		"verticalAlign": "baseline"
-	},
-	{
-		"selector": ":host",
-		"display": "flex",
-		"flex": "1 1 0",
-		"alignItems": "center",
-		"justifyContent": "space-between",
-		"border": "1px solid #383838",
-		"margin": "2px",
-		"padding": "3px",
-		"borderRadius": "2px"
-	},
-	{
-		"selector": "label",
-		"padding": "2px 7px"
-	}
-
-	];
-	var hostStylesUseCache = {
-		use : false,
-		nameInCache : 'ComponentPickingInputHostStyles'
 	}
 	
 	
@@ -24637,8 +24637,6 @@ ColorPickerSliderInput.prototype._asyncRegisterTasks = [];
 ColorPickerSliderInput.prototype._asyncRegisterTasks.push(new TemplateFactory.TaskDefinitionModel({
 	type : 'lateBinding',
 	task : function() {
-//		this.view.subViewsHolder.memberViews[1].getMasterNode().value;
-//		this.view.subViewsHolder.memberViews[2].getMasterNode().textContent = this.view.subViewsHolder.memberViews[1].getMasterNode().value;
 		this.view.getMasterNode().style.left = this.absolutLeft + this.leftOffset + 'px';
 		this.view.getMasterNode().style.transform = 'translate(-8px)';
 	}
@@ -24650,7 +24648,11 @@ ColorPickerSliderInput.prototype.registerClickEvents = function() {
 		this.trigger('update', {type : 'colorChanged', value : e.target.value, key : this._key}, true);
 	}.bind(this));
 	
-	this.view.subViewsHolder.memberViews[0].getMasterNode().addEventListener('mousedown', function(e) {
+	// listening to the pointer and capturing the pointer isn't needed
+	// (the bug we had came from the parent element being out of flow due to its absolute positionning)
+	// thoug, it seems to be a good practice
+	// TODO: convert every mouse events to pointer events in the framework, as mouse events may not be correctly handled on mobile
+	this.view.subViewsHolder.memberViews[0].getMasterNode().addEventListener('pointerdown', function(e) {
 		e.target.setPointerCapture(e.pointerId);
 		this.initialClickOffset = e.clientX - this.absolutLeft - this.leftOffset;
 		this.handleDrag.call(this);
@@ -24659,11 +24661,11 @@ ColorPickerSliderInput.prototype.registerClickEvents = function() {
 
 ColorPickerSliderInput.prototype.handleDrag = function() {
 	const dragHandler = this.dragHandler.bind(this);
-	document.body.addEventListener('mousemove', dragHandler);
-	document.body.addEventListener('mouseup', function(e) {
+	document.body.addEventListener('pointermove', dragHandler);
+	document.body.addEventListener('pointerup', function(e) {
 		e.target.releasePointerCapture(e.pointerId);
 		this.leftOffset = parseInt(this.view.getMasterNode().style.left.slice(0, -2));
-		document.body.removeEventListener('mousemove', dragHandler);
+		document.body.removeEventListener('pointermove', dragHandler);
 	}.bind(this));
 }
 
